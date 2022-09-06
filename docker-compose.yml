@@ -1,0 +1,20 @@
+version: '3.4'
+services:
+
+  postgres:
+    restart: always
+    image: postgres:13.0-alpine
+    container_name: dbpostgres
+    ports:
+      - "5432:5432"
+    environment:
+      - DEBUG=true
+      - POSTGRES_DB=saloespoc
+      - POSTGRES_PASSWORD=my-password
+    volumes:
+      - ./src/main/resources/db/script.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
