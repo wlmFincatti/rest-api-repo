@@ -28,8 +28,7 @@ object CustomerRepository {
     override def saveCustomer(customer: Customer): IO[UUID] = {
       session.use { session =>
         session.prepare(saveCustomerRepo).use { cmd =>
-          cmd.execute(Customer(customer.id, customer.name, customer.document))
-            .as(customer.id)
+          cmd.execute(customer).as(customer.id)
         }
       }
     }
