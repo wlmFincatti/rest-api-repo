@@ -13,7 +13,7 @@ import org.http4s.dsl.Http4sDsl
 
 object CustomerRoutes {
 
-  def routes(customerRepository: CustomerRepository): HttpRoutes[IO] = {
+  def routes(customerRepository: CustomerRepository[IO]): HttpRoutes[IO] = {
 
     val dsl = new Http4sDsl[IO] {}
     import dsl._
@@ -29,7 +29,7 @@ object CustomerRoutes {
           customer <- req.as[Customer]
           response <- customerRepository.findCustomer(customer.id).flatMap {
             case Some(_) => UnprocessableEntity(s"Customer with id: ${customer.id} already exists")
-            case None => Ok(customerRepository.saveCustomer(customer))
+            case None => Created(customerRepository.saveCustomer(customer))
           }
         } yield response
     }

@@ -21,7 +21,7 @@ object ApplicationCustomer extends IOApp {
       database = "saloespoc",
       password = Some("my-password")
     )
-  private val customerRepository: CustomerRepository = new CustomerRepositoryImpl(session)
+  private val customerRepository: CustomerRepository[IO] = new CustomerRepositoryImpl(session)
 
   val httpRoutes: Kleisli[IO, Request[IO], Response[IO]] = Router[IO](
     "/v1/api/" -> CustomerRoutes.routes(customerRepository)

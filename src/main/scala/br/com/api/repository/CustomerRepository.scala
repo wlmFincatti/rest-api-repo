@@ -3,21 +3,22 @@ package br.com.api.repository
 import br.com.api.model.Customer
 import br.com.api.repository.sql.CustomerSql._
 import cats.effect
-import cats.effect.IO
+import cats.effect.MonadCancelThrow
+import cats.implicits.toFunctorOps
 import skunk.Session
 
 import java.util.UUID
 
-trait CustomerRepository {
-  def findCustomer(id: UUID): IO[Option[Customer]]
+trait CustomerRepository[F[_]] {
+  def findCustomer(id: UUID): F[Option[Customer]]
 
-  def saveCustomer(customer: Customer): IO[UUID]
+  def saveCustomer(customer: Customer): F[UUID]
 }
 
 object CustomerRepository {
-  class CustomerRepositoryImpl(session: effect.Resource[IO, Session[IO]]) extends CustomerRepository {
+  class CustomerRepositoryImpl[F[_] : MonadCancelThrow](session: effect.Resource[F, Session[F]]) extends CustomerRepository[F] {
 
-    override def findCustomer(id: UUID): IO[Option[Customer]] = {
+    override def findCustomer(id: UUID): F[Option[Customer]] = {
       session.use(s => {
         s.prepare(findCustomerById).use {
           q => q.option(id)
@@ -25,7 +26,7 @@ object CustomerRepository {
       })
     }
 
-    override def saveCustomer(customer: Customer): IO[UUID] = {
+    override def saveCustomer(customer: Customer): F[UUID] = {
       session.use { session =>
         session.prepare(saveCustomerRepo).use { cmd =>
           cmd.execute(customer).as(customer.id)
