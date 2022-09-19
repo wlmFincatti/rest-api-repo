@@ -1,0 +1,44 @@
+{
+  "documentNumber": {
+    "S": "12345678901"
+  },
+  "documentType": {
+    "S": "PF"
+  },
+  "fullName": {
+    "S": "Teste Silva"
+  },
+  "email": {
+    "S": "teste@teste.com"
+  },
+  "birthDate": {
+    "S": "30/09/2000"
+  },
+  "nickName": {
+    "S": "Tes"
+  },
+  "phoneNumber": {
+    "S": "12345678901"
+  },
+  "phoneType": {
+    "S": "11 9999999999"
+  },
+  "zipCode": {
+    "S": "13000-321"
+  },
+  "city": {
+    "S": "Teste"
+  },
+  "district": {
+    "S": "Bairro Teste"
+  },
+  "addressStreetName": {
+    "S": "Rua teste"
+  },
+  "addressNumber": {
+    "S": "234"
+  },
+  "complement": {
+    "S": "casa"
+  }
+}

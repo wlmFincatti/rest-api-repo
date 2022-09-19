@@ -1,0 +1,8 @@
+{
+  ":documentNumber": {
+    "S": "12345678901"
+  },
+  ":email": {
+    "S": "teste@teste.com"
+  }
+}
